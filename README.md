@@ -2,7 +2,22 @@
 
 English | [中文](#中文)
 
+One-command Zellij setup for Codex CLI on SSH servers: vertical tabs, stable `ze` sessions, shortcuts, and `[ing]` / `[done]` / `[!!!]` Codex status markers.
+
+```bash
+bash zellij_init.sh
+source ~/.bashrc
+ze t
+```
+
 ![codex-zellij-upgrade screenshot](assets/codex-zellij-upgrade.png)
+
+## What You Get
+
+- left-side vertical tabs for many Codex tasks
+- `ze name`, `ze ls`, `ze kill name` for simple server-side session management
+- `[ing]`, `[done]`, `[!!!]` markers in tab names for Codex work/done/approval states
+- `Alt+w/s/r/i/o` shortcuts for tab navigation, rename, and ordering
 
 ## English
 
