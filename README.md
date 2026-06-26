@@ -1,10 +1,14 @@
 # codex-zellij-upgrade
 
+[![CI](https://github.com/benjohn18/codex-zellij-upgrade/actions/workflows/ci.yml/badge.svg)](https://github.com/benjohn18/codex-zellij-upgrade/actions/workflows/ci.yml)
+
 English | [中文](#中文)
 
 One-command Zellij setup for Codex CLI on SSH servers: vertical tabs, stable `ze` sessions, shortcuts, and `[ing]` / `[done]` / `[!!!]` Codex status markers.
 
 ```bash
+git clone https://github.com/benjohn18/codex-zellij-upgrade.git
+cd codex-zellij-upgrade
 bash zellij_init.sh
 source ~/.bashrc
 ze t
@@ -22,6 +26,8 @@ ze t
 ## English
 
 `codex-zellij-upgrade` is a one-command Zellij setup for people who run many Codex CLI sessions on a remote SSH server.
+
+It is for users who want their Codex task list to live inside the server-side Zellij session, not across many local SSH client tabs.
 
 It is not a new terminal multiplexer and not a replacement for Zellij. It is an opinionated installer that combines vertical tabs, stable named sessions, simple tab shortcuts, and Codex activity markers.
 
@@ -43,6 +49,8 @@ This is useful when you keep many Codex panes/tabs open on a server and want the
 ### Install
 
 ```bash
+git clone https://github.com/benjohn18/codex-zellij-upgrade.git
+cd codex-zellij-upgrade
 bash zellij_init.sh
 source ~/.bashrc
 ze t
@@ -98,6 +106,8 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 
 `codex-zellij-upgrade` 是一个给远程 SSH 服务器上的 Codex CLI 工作流用的 Zellij 一键配置脚本。
 
+它适合希望把 Codex 任务列表放在服务器端 Zellij session 里，而不是散落在本地 SSH 客户端多个 tab 里的人。
+
 它不是新的终端复用器，也不是要替代 Zellij。它是一个偏实用的安装器：把竖向 tab、固定名字 session、简单快捷键、Codex 工作状态标记组合到一起。
 
 **关键词：** Zellij、Codex CLI、OpenAI Codex、SSH 工作流、竖向 tab、AI 终端工作流、授权状态、终端 tab、持久 session。
@@ -118,6 +128,8 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 ### 安装
 
 ```bash
+git clone https://github.com/benjohn18/codex-zellij-upgrade.git
+cd codex-zellij-upgrade
 bash zellij_init.sh
 source ~/.bashrc
 ze t
