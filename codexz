@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -u
+
+export PATH="$HOME/bin:$PATH"
+
+ztab-status ing >/dev/null 2>&1 || true
+command codex "$@"
+rc=$?
+
+if [ "$rc" -eq 0 ]; then
+    ztab-status done >/dev/null 2>&1 || true
+else
+    ztab-status '!!!' >/dev/null 2>&1 || true
+fi
+
+exit "$rc"

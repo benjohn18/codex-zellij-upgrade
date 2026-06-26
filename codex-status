@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+import json
+import os
+import time
+from pathlib import Path
+
+
+def newest_session(root: Path) -> Path | None:
+    files = list(root.glob("**/*.jsonl"))
+    if not files:
+        return None
+    return max(files, key=lambda p: p.stat().st_mtime)
+
+
+def load_events(path: Path):
+    with path.open("r", encoding="utf-8", errors="replace") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError:
+                continue
+
+
+def event_time(event):
+    ts = event.get("timestamp")
+    if isinstance(ts, str):
+        return ts.replace("T", " ").replace("Z", "")
+    return ""
+
+
+def is_approval_request(payload) -> bool:
+    args = payload.get("arguments") or ""
+    if not isinstance(args, str):
+        return False
+    try:
+        parsed = json.loads(args)
+    except json.JSONDecodeError:
+        return False
+    return parsed.get("sandbox_permissions") == "require_escalated"
+
+
+def classify(path: Path):
+    last_task_started = None
+    last_task_complete = None
+    last_event = None
+    approval_waiting = False
+
+    for event in load_events(path):
+        last_event = event
+        etype = event.get("type")
+        payload = event.get("payload") or {}
+
+        if etype == "event_msg":
+            ptype = payload.get("type")
+            if ptype == "task_started":
+                last_task_started = event
+                last_task_complete = None
+                approval_waiting = False
+            elif ptype == "task_complete":
+                last_task_complete = event
+                approval_waiting = False
+
+        if etype == "response_item":
+            rtype = payload.get("type")
+            if rtype == "function_call":
+                if is_approval_request(payload):
+                    approval_waiting = True
+            elif rtype == "function_call_output":
+                approval_waiting = False
+
+    if approval_waiting:
+        return "[!!!]", "approval", last_event
+
+    if last_task_started is not None:
+        if last_task_complete is None:
+            return "[ing]", "working", last_task_started
+        start_payload = last_task_started.get("payload") or {}
+        done_payload = last_task_complete.get("payload") or {}
+        if start_payload.get("turn_id") != done_payload.get("turn_id"):
+            return "[ing]", "working", last_task_started
+
+    if last_task_complete is not None:
+        return "[done]", "done", last_task_complete
+
+    return "[done]", "idle", last_event
+
+
+def main():
+    root = Path(os.environ.get("CODEX_STATUS_ROOT", "~/.codex/sessions")).expanduser()
+    path = newest_session(root)
+    if path is None:
+        print("[done] no codex session")
+        return
+
+    marker, label, event = classify(path)
+    ts = event_time(event) if event else ""
+    age = int(time.time() - path.stat().st_mtime)
+    print(f"{marker} codex {label} age={age}s {ts}")
+
+
+if __name__ == "__main__":
+    main()
