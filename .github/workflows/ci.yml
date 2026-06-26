@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check shell scripts
+        run: |
+          bash -n zellij_init.sh
+          bash -n codex-status-watch
+          bash -n codexz
+
+      - name: Check Python scripts
+        run: |
+          python3 -m py_compile codex-tab-monitor ztab-status codex-status
+
+      - name: Run status state-machine tests
+        run: |
+          ./codex-tab-monitor --self-test
+
+      - name: Check required files
+        run: |
+          test -s README.md
+          test -s LICENSE
+          test -s THIRD_PARTY_NOTICES.md
+          test -s zellij_init.sh
+          test -s zellij-vertical-tabs.wasm
+          test -s assets/codex-zellij-upgrade.png
