@@ -9,3 +9,5 @@ This repository bundles `zellij-vertical-tabs.wasm` for offline installation.
 - License: MIT
 
 The bundled plugin is not authored by this repository. Keep this notice when redistributing the binary.
+
+To update the bundled plugin, download a new `zellij-vertical-tabs.wasm` from the upstream release page and replace the file in this repository.

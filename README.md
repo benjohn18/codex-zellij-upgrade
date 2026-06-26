@@ -95,6 +95,7 @@ ze kill name  # kill/delete session "name"
 - `zellij-vertical-tabs.wasm`: bundled vertical tab plugin
 - `codex-tab-monitor`, `ztab-status`, `codex-status`: Codex tab status helpers
 - `user_readme.md`: short user cheat sheet
+- `SUPPORT.md`: restore and debugging notes
 
 ### License
 
@@ -174,6 +175,7 @@ ze kill name  # 删除 name 这个 session
 - `zellij-vertical-tabs.wasm`: 内置竖向 tab 插件
 - `codex-tab-monitor`, `ztab-status`, `codex-status`: Codex tab 状态脚本
 - `user_readme.md`: 给普通用户看的简短说明
+- `SUPPORT.md`: 恢复和调试说明
 
 ### 开源协议
 
