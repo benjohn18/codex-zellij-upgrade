@@ -26,18 +26,11 @@ ze kill name  # 删除 name 这个 session
 - `Ctrl+q`: 挂起 / detach 当前 session
 - `Ctrl+t` 后按 `n`: 新建 tab
 
-Codex 状态：
-
-- `[ing]`: 正在工作
-- `[done]`: 已完成当前回复
-- `[!!!]`: 等待授权
-
-状态卡住时：
+说明：旧版的 Codex `[ing] [done] [!!!]` 状态监控已经移除，因为长时间运行会让输入变卡。旧用户执行：
 
 ```bash
-ztab-status ing
-ztab-status done
-ztab-status !!!
+bash remove_codex_status_monitor.sh
+source ~/.bashrc
 ```
 
 ## English
@@ -66,8 +59,9 @@ Shortcuts:
 - `Ctrl+q`: detach session
 - `Ctrl+t`, then `n`: new tab
 
-Codex status:
+Note: old Codex `[ing] [done] [!!!]` status monitoring was removed because it can cause input latency in long-running sessions. Existing users can run:
 
-- `[ing]`: working
-- `[done]`: current turn finished
-- `[!!!]`: waiting for approval
+```bash
+bash remove_codex_status_monitor.sh
+source ~/.bashrc
+```

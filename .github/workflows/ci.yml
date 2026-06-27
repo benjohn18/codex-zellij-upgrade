@@ -15,16 +15,7 @@ jobs:
       - name: Check shell scripts
         run: |
           bash -n zellij_init.sh
-          bash -n codex-status-watch
-          bash -n codexz
-
-      - name: Check Python scripts
-        run: |
-          python3 -m py_compile codex-tab-monitor ztab-status codex-status
-
-      - name: Run status state-machine tests
-        run: |
-          ./codex-tab-monitor --self-test
+          bash -n remove_codex_status_monitor.sh
 
       - name: Check required files
         run: |
@@ -32,5 +23,6 @@ jobs:
           test -s LICENSE
           test -s THIRD_PARTY_NOTICES.md
           test -s zellij_init.sh
+          test -s remove_codex_status_monitor.sh
           test -s zellij-vertical-tabs.wasm
           test -s assets/codex-zellij-upgrade.png

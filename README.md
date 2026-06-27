@@ -4,7 +4,7 @@
 
 English | [中文](#中文)
 
-One-command Zellij setup for Codex CLI on SSH servers: vertical tabs, stable `ze` sessions, shortcuts, and `[ing]` / `[done]` / `[!!!]` Codex status markers.
+One-command Zellij setup for Codex CLI on SSH servers: vertical tabs, stable `ze` sessions, shortcuts, and the normal Zellij status bar.
 
 ```bash
 git clone https://github.com/benjohn18/codex-zellij-upgrade.git
@@ -20,8 +20,8 @@ ze t
 
 - left-side vertical tabs for many Codex tasks
 - `ze name`, `ze ls`, `ze kill name` for simple server-side session management
-- `[ing]`, `[done]`, `[!!!]` markers in tab names for Codex work/done/approval states
 - `Alt+w/s/r/i/o` shortcuts for tab navigation, rename, and ordering
+- the built-in Zellij status bar remains visible
 
 ## English
 
@@ -29,9 +29,9 @@ ze t
 
 It is for users who want their Codex task list to live inside the server-side Zellij session, not across many local SSH client tabs.
 
-It is not a new terminal multiplexer and not a replacement for Zellij. It is an opinionated installer that combines vertical tabs, stable named sessions, simple tab shortcuts, and Codex activity markers.
+It is not a new terminal multiplexer and not a replacement for Zellij. It is an opinionated installer that combines vertical tabs, stable named sessions, and simple tab shortcuts.
 
-**Keywords:** Zellij, Codex CLI, OpenAI Codex, SSH workflow, vertical tabs, AI terminal workflow, approval status, terminal tabs, persistent sessions.
+**Keywords:** Zellij, Codex CLI, OpenAI Codex, SSH workflow, vertical tabs, AI terminal workflow, terminal tabs, persistent sessions.
 
 ### What It Gives You
 
@@ -39,12 +39,16 @@ It is not a new terminal multiplexer and not a replacement for Zellij. It is an 
 - `ze name` to enter or create a stable named Zellij session
 - `ze ls` and `ze kill name` for simple session management
 - `Alt+w/s/r/i/o` shortcuts for tab navigation, rename, and ordering
-- Codex tab markers:
-  - `[ing]`: Codex is working
-  - `[done]`: Codex finished the current turn
-  - `[!!!]`: Codex is waiting for approval
+- the built-in Zellij status bar stays enabled
 
 This is useful when you keep many Codex panes/tabs open on a server and want the task list to live server-side instead of in local SSH client tabs.
+
+Early versions included Codex tab-name status markers. They were removed because screen/log polling can add input latency in long-running Codex sessions. If you installed an older version, run:
+
+```bash
+bash remove_codex_status_monitor.sh
+source ~/.bashrc
+```
 
 ### Install
 
@@ -92,8 +96,8 @@ ze kill name  # kill/delete session "name"
 ### Files
 
 - `zellij_init.sh`: one-command installer
+- `remove_codex_status_monitor.sh`: remove old Codex status monitor from earlier installs
 - `zellij-vertical-tabs.wasm`: bundled vertical tab plugin
-- `codex-tab-monitor`, `ztab-status`, `codex-status`: Codex tab status helpers
 - `user_readme.md`: short user cheat sheet
 - `SUPPORT.md`: restore and debugging notes
 
@@ -109,9 +113,9 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 
 它适合希望把 Codex 任务列表放在服务器端 Zellij session 里，而不是散落在本地 SSH 客户端多个 tab 里的人。
 
-它不是新的终端复用器，也不是要替代 Zellij。它是一个偏实用的安装器：把竖向 tab、固定名字 session、简单快捷键、Codex 工作状态标记组合到一起。
+它不是新的终端复用器，也不是要替代 Zellij。它是一个偏实用的安装器：把竖向 tab、固定名字 session、简单快捷键组合到一起。
 
-**关键词：** Zellij、Codex CLI、OpenAI Codex、SSH 工作流、竖向 tab、AI 终端工作流、授权状态、终端 tab、持久 session。
+**关键词：** Zellij、Codex CLI、OpenAI Codex、SSH 工作流、竖向 tab、AI 终端工作流、终端 tab、持久 session。
 
 ### 它解决什么
 
@@ -119,12 +123,16 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 - `ze name` 进入或创建固定名字的 Zellij session
 - `ze ls` 和 `ze kill name` 简化 session 管理
 - `Alt+w/s/r/i/o` 用来切换、改名、移动 tab
-- Codex tab 状态：
-  - `[ing]`: Codex 正在工作
-  - `[done]`: Codex 已完成当前回复
-  - `[!!!]`: Codex 正在等待授权
+- 保留 Zellij 内置状态栏
 
 适合你在服务器上开很多 Codex tab，希望任务列表留在服务器端，而不是散落在本地 SSH 客户端窗口里。
+
+早期版本带 Codex tab 状态标记。这个功能会轮询屏幕和日志，长时间 Codex 会话里可能导致输入延迟，所以现在已经移除。旧用户可以运行：
+
+```bash
+bash remove_codex_status_monitor.sh
+source ~/.bashrc
+```
 
 ### 安装
 
@@ -172,8 +180,8 @@ ze kill name  # 删除 name 这个 session
 ### 文件
 
 - `zellij_init.sh`: 一键安装脚本
+- `remove_codex_status_monitor.sh`: 清理旧版 Codex 状态监控
 - `zellij-vertical-tabs.wasm`: 内置竖向 tab 插件
-- `codex-tab-monitor`, `ztab-status`, `codex-status`: Codex tab 状态脚本
 - `user_readme.md`: 给普通用户看的简短说明
 - `SUPPORT.md`: 恢复和调试说明
 

@@ -17,7 +17,7 @@ permissions_file="${zellij_cache_dir}/permissions.kdl"
 bashrc="${HOME}/.bashrc"
 ztasks="${HOME}/bin/ztasks"
 bundled_plugin="${script_dir}/zellij-vertical-tabs.wasm"
-codex_helper_scripts=(
+old_codex_status_scripts=(
     codex-tab-monitor
     ztab-status
     codex-status
@@ -210,18 +210,14 @@ text = pattern.sub("", text).rstrip() + "\n\n" + block + "\n"
 path.write_text(text)
 PY
 
-echo "[write] codex tab-status scripts in: ${HOME}/bin"
-for name in "${codex_helper_scripts[@]}"; do
-    src="${script_dir}/${name}"
-    if [ ! -s "$src" ]; then
-        echo "[error] missing bundled script: $src" >&2
-        exit 1
-    fi
-    cp "$src" "${HOME}/bin/${name}"
-    chmod +x "${HOME}/bin/${name}"
+echo "[cleanup] old Codex tab-status monitor"
+if pgrep -u "$(id -u)" -f 'codex-tab-monitor|codex-status-watch|ztab-status|codexz' >/dev/null 2>&1; then
+    pkill -u "$(id -u)" -f 'codex-tab-monitor|codex-status-watch|ztab-status|codexz' 2>/dev/null || true
+fi
+for name in "${old_codex_status_scripts[@]}"; do
+    rm -f "${HOME}/bin/${name}"
 done
 
-echo "[write] codex wrapper in: $bashrc"
 python3 - "$bashrc" <<'PY'
 import pathlib
 import re
@@ -231,53 +227,9 @@ path = pathlib.Path(sys.argv[1])
 text = path.read_text() if path.exists() else ""
 begin = "# >>> codex zellij tab status >>>"
 end = "# <<< codex zellij tab status <<<"
-
-block = r'''# >>> codex zellij tab status >>>
-# Adds [ing]/[done]/[!!!] to the current Zellij tab while Codex works.
-# If a user already defines codex_proxy above this block, it is preserved.
-codex() {
-    if declare -F codex_proxy >/dev/null 2>&1; then
-        codex_proxy
-    fi
-
-    local _codex_tab_id=""
-    local _codex_tab_name=""
-    local _codex_monitor_pid=""
-    if [ -n "${ZELLIJ:-}" ]; then
-        local _codex_tab_info
-        _codex_tab_info="$(ztab-status --print-current 2>/dev/null || true)"
-        _codex_tab_id="${_codex_tab_info%%$'\t'*}"
-        _codex_tab_name="${_codex_tab_info#*$'\t'}"
-        ztab-status ing >/dev/null 2>&1 || true
-        if [ -n "$_codex_tab_id" ] && [ "$_codex_tab_id" != "$_codex_tab_info" ]; then
-            codex-tab-monitor "$_codex_tab_id" "$_codex_tab_name" "$(date +%s)" "${ZELLIJ_PANE_ID:-}" >/dev/null 2>&1 &
-            _codex_monitor_pid="$!"
-        fi
-    fi
-
-    command codex "$@"
-    local rc=$?
-
-    if [ -n "$_codex_monitor_pid" ]; then
-        kill "$_codex_monitor_pid" >/dev/null 2>&1 || true
-        wait "$_codex_monitor_pid" 2>/dev/null || true
-    fi
-
-    if [ -n "${ZELLIJ:-}" ]; then
-        if [ "$rc" -eq 0 ]; then
-            ztab-status done >/dev/null 2>&1 || true
-        else
-            ztab-status '!!!' >/dev/null 2>&1 || true
-        fi
-    fi
-    return "$rc"
-}
-# <<< codex zellij tab status <<<
-'''
-
 pattern = re.compile(re.escape(begin) + r".*?" + re.escape(end) + r"\n?", re.S)
-text = pattern.sub("", text).rstrip() + "\n\n" + block + "\n"
-path.write_text(text)
+text = pattern.sub("", text)
+path.write_text(text.rstrip() + "\n")
 PY
 
 echo "[write] launcher: $ztasks"
@@ -299,13 +251,6 @@ echo "[check] bash syntax"
 bash -n "$bashrc"
 bash -n "$ztasks"
 
-echo "[check] codex tab-status scripts"
-python3 -m py_compile \
-    "${HOME}/bin/codex-tab-monitor" \
-    "${HOME}/bin/ztab-status" \
-    "${HOME}/bin/codex-status"
-"${HOME}/bin/codex-tab-monitor" --self-test >/dev/null
-
 echo "[check] zellij config"
 zellij setup --check >/dev/null
 zellij setup --dump-layout vertical-tabs-left >/dev/null
@@ -320,11 +265,6 @@ Use in current shell:
 
 Start Codex after source ~/.bashrc:
   codex
-
-Codex tab status:
-  [ing]    Codex is working
-  [done]   Codex finished the current turn
-  [!!!]    Codex is waiting for approval
 
 Use from SSH:
   ssh -tt USER@SERVER '~/bin/ztasks t'
