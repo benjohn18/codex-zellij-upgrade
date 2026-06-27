@@ -17,13 +17,6 @@ permissions_file="${zellij_cache_dir}/permissions.kdl"
 bashrc="${HOME}/.bashrc"
 ztasks="${HOME}/bin/ztasks"
 bundled_plugin="${script_dir}/zellij-vertical-tabs.wasm"
-old_codex_status_scripts=(
-    codex-tab-monitor
-    ztab-status
-    codex-status
-    codex-status-watch
-    codexz
-)
 
 backup_file() {
     local file="$1"
@@ -210,28 +203,6 @@ text = pattern.sub("", text).rstrip() + "\n\n" + block + "\n"
 path.write_text(text)
 PY
 
-echo "[cleanup] old Codex tab-status monitor"
-if pgrep -u "$(id -u)" -f 'codex-tab-monitor|codex-status-watch|ztab-status|codexz' >/dev/null 2>&1; then
-    pkill -u "$(id -u)" -f 'codex-tab-monitor|codex-status-watch|ztab-status|codexz' 2>/dev/null || true
-fi
-for name in "${old_codex_status_scripts[@]}"; do
-    rm -f "${HOME}/bin/${name}"
-done
-
-python3 - "$bashrc" <<'PY'
-import pathlib
-import re
-import sys
-
-path = pathlib.Path(sys.argv[1])
-text = path.read_text() if path.exists() else ""
-begin = "# >>> codex zellij tab status >>>"
-end = "# <<< codex zellij tab status <<<"
-pattern = re.compile(re.escape(begin) + r".*?" + re.escape(end) + r"\n?", re.S)
-text = pattern.sub("", text)
-path.write_text(text.rstrip() + "\n")
-PY
-
 echo "[write] launcher: $ztasks"
 cat > "$ztasks" <<'EOF'
 #!/usr/bin/env bash
@@ -257,7 +228,7 @@ zellij setup --dump-layout vertical-tabs-left >/dev/null
 
 cat <<'EOF'
 
-[done] Zellij vertical tabs installed.
+[ok] Zellij vertical tabs installed.
 
 Use in current shell:
   source ~/.bashrc

@@ -15,7 +15,6 @@ jobs:
       - name: Check shell scripts
         run: |
           bash -n zellij_init.sh
-          bash -n remove_codex_status_monitor.sh
 
       - name: Check required files
         run: |
@@ -23,6 +22,5 @@ jobs:
           test -s LICENSE
           test -s THIRD_PARTY_NOTICES.md
           test -s zellij_init.sh
-          test -s remove_codex_status_monitor.sh
           test -s zellij-vertical-tabs.wasm
           test -s assets/codex-zellij-upgrade.png

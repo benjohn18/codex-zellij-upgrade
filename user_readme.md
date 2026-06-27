@@ -26,13 +26,6 @@ ze kill name  # 删除 name 这个 session
 - `Ctrl+q`: 挂起 / detach 当前 session
 - `Ctrl+t` 后按 `n`: 新建 tab
 
-说明：旧版的 Codex `[ing] [done] [!!!]` 状态监控已经移除，因为长时间运行会让输入变卡。旧用户执行：
-
-```bash
-bash remove_codex_status_monitor.sh
-source ~/.bashrc
-```
-
 ## English
 
 Load shell config first:
@@ -58,10 +51,3 @@ Shortcuts:
 - `Alt+o`: move current tab down
 - `Ctrl+q`: detach session
 - `Ctrl+t`, then `n`: new tab
-
-Note: old Codex `[ing] [done] [!!!]` status monitoring was removed because it can cause input latency in long-running sessions. Existing users can run:
-
-```bash
-bash remove_codex_status_monitor.sh
-source ~/.bashrc
-```

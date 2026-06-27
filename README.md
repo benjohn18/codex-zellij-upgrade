@@ -43,13 +43,6 @@ It is not a new terminal multiplexer and not a replacement for Zellij. It is an 
 
 This is useful when you keep many Codex panes/tabs open on a server and want the task list to live server-side instead of in local SSH client tabs.
 
-Early versions included Codex tab-name status markers. They were removed because screen/log polling can add input latency in long-running Codex sessions. If you installed an older version, run:
-
-```bash
-bash remove_codex_status_monitor.sh
-source ~/.bashrc
-```
-
 ### Install
 
 ```bash
@@ -96,7 +89,6 @@ ze kill name  # kill/delete session "name"
 ### Files
 
 - `zellij_init.sh`: one-command installer
-- `remove_codex_status_monitor.sh`: remove old Codex status monitor from earlier installs
 - `zellij-vertical-tabs.wasm`: bundled vertical tab plugin
 - `user_readme.md`: short user cheat sheet
 - `SUPPORT.md`: restore and debugging notes
@@ -126,13 +118,6 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 - 保留 Zellij 内置状态栏
 
 适合你在服务器上开很多 Codex tab，希望任务列表留在服务器端，而不是散落在本地 SSH 客户端窗口里。
-
-早期版本带 Codex tab 状态标记。这个功能会轮询屏幕和日志，长时间 Codex 会话里可能导致输入延迟，所以现在已经移除。旧用户可以运行：
-
-```bash
-bash remove_codex_status_monitor.sh
-source ~/.bashrc
-```
 
 ### 安装
 
@@ -180,7 +165,6 @@ ze kill name  # 删除 name 这个 session
 ### 文件
 
 - `zellij_init.sh`: 一键安装脚本
-- `remove_codex_status_monitor.sh`: 清理旧版 Codex 状态监控
 - `zellij-vertical-tabs.wasm`: 内置竖向 tab 插件
 - `user_readme.md`: 给普通用户看的简短说明
 - `SUPPORT.md`: 恢复和调试说明
