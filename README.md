@@ -19,6 +19,7 @@ ze t
 ## What You Get
 
 - left-side vertical tabs for many Codex tasks
+- tab names are shown before dynamic pane titles, so renamed tasks stay visible
 - `ze name`, `ze ls`, `ze kill name` for simple server-side session management
 - `Alt+w/s/r/i/o` shortcuts for tab navigation, rename, and ordering
 - the built-in Zellij status bar remains visible
@@ -36,6 +37,7 @@ It is not a new terminal multiplexer and not a replacement for Zellij. It is an 
 ### What It Gives You
 
 - left-side vertical tabs for many long-running tasks
+- tab names are displayed before dynamic pane titles, so your renamed task names are not hidden by long paths or titles
 - `ze name` to enter or create a stable named Zellij session
 - `ze ls` and `ze kill name` for simple session management
 - `Alt+w/s/r/i/o` shortcuts for tab navigation, rename, and ordering
@@ -112,6 +114,7 @@ MIT. The bundled `zellij-vertical-tabs.wasm` comes from the MIT-licensed `cfal/z
 ### 它解决什么
 
 - 左侧常驻竖向 tab，适合很多长期任务
+- tab 名字显示在动态 title 前面，rename 后的任务名不会被长路径或长标题挡住
 - `ze name` 进入或创建固定名字的 Zellij session
 - `ze ls` 和 `ze kill name` 简化 session 管理
 - `Alt+w/s/r/i/o` 用来切换、改名、移动 tab

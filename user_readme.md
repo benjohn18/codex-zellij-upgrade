@@ -16,6 +16,8 @@ ze ls         # 查看所有 session
 ze kill name  # 删除 name 这个 session
 ```
 
+显示规则：tab 名字在前，动态 title 在后；rename 后的名字会优先显示。
+
 快捷键：
 
 - `Alt+w`: 上一个 tab
@@ -41,6 +43,8 @@ ze name       # enter or create session "name"
 ze ls         # list sessions
 ze kill name  # kill/delete session "name"
 ```
+
+Display rule: tab name comes first, dynamic title comes after it. Renamed task names stay visible.
 
 Shortcuts:
 

@@ -66,12 +66,12 @@ layout {
     pane split_direction="Vertical" {
         pane size=24 borderless=true {
             plugin location="file:${plugin_file}" {
-                format "#[fg=muted,bold]{index}  #[fg=white]{name}"
-                format_active "#[fg=black,bg=39,fill,bold] {index}  {name} "
+                format "#[fg=muted,bold]{index} #[fg=white]{name} #[fg=yellow]{title}"
+                format_active "#[fg=black,bg=39,fill,bold] {index} {name} {title} "
                 indicator_active ""
                 indicator_fullscreen "F"
                 indicator_sync "S"
-                max_name_length 20
+                max_name_length 48
                 border "#[fg=238]|"
             }
         }
